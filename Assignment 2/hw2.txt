@@ -1,0 +1,50 @@
+I decided to write make_parser primarily in terms of make_matcher. 
+What I mean by primarily is that I slightly edited my make_matcher function
+when I was writing my make_parser function: within the mutually recursive 
+functions within make_matcher, I changed the line x -> x to 
+Some x -> Some (head::x). Thus, instead of returning x, which is what the 
+"width" function within make_matcher does, the analogous "length" function 
+within my make_parser prepends all the associated rules into a list of 
+traversed rules. When I called the modified version of make_matcher, I 
+also passed in a special acceptor that would accept anything. Essentially, 
+I used the modified version of make_matcher to create a list of the rules 
+that I would traverse upon building my tree. Once I had the list of rules, 
+the rest of make_parser was accomplished by building an algorithm that 
+would link together the individual elements together in a parse tree 
+structure correctly.
+
+As a result, when viewing my code, it appears that my make_parser is 
+unrelated to make_matcher; the make_parser does not at any occasion call 
+upon make_matcher. However, the modified version of make_matcher is embedded 
+within my make_parser code, as is the modified acceptor. The modified version
+of make_matcher is hard coded to take in the modified version of the acceptor, 
+known in my code as empty_acceptor. In order to avoid potential scoping 
+issues, I had to rename all my analogous mutually recursive functions within 
+my modified version of make_matcher.
+
+The reason why I ended up choosing this approach is that I found myself 
+unable to conceive of a method to incorporate the original version of 
+make_matcher within my code for make_parser. As for why I even used the 
+modified make_matcher within my make_parser, when I originally attempted to 
+write my make_parser without the list of traversed rules, I found that while 
+I was eventually able to reach all the traversed rules, I was not able to 
+construct a parse tree. Specifically, I was not able to link certain leaves
+to their parent node, due to the method and order in which I traversed the 
+list of rules.
+
+The most major potential pitfall of this particular code is that it can 
+potentially run into an infinite loop. Specifically, if the grammar
+definition contains a rule such as the following,
+| Loop1 -> 		[[N Loop2]]
+| Loop2 -> 		[[N Loop1]]
+or any other situation that involves a N Term -> N Term -> N Term -> etc.,
+my implementation will run into an infinite loop as it will keep following
+the N Terms and I did not write any checks to see if there exists such 
+a situation in the grammar definition before attempting to generate the
+parser.
+
+Hence, in the context of testing grammars that are being proposed as test
+cases for CS 132, where there is a reasonable chance of the grammar being
+imperfect and having strange qualities such as the infinite loop described
+above, my code may not work very well in the face of strange edge cases
+within the grammar definition, since I did not address that particular aspect.

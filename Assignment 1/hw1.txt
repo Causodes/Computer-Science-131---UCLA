@@ -1,0 +1,13 @@
+1. I solved the subset problem via recursion to simplify code. I began with a match statement so I could eliminate the edge case in which a is an empty set. If a was not empty, I recursively spliced off the first element of the set a and checked to see if it was an element within b.
+
+2. I solved the equal_sets problem via checking if a is a subset of b and if b is a subset of a. I chose this approach as it saves code and is the mathematical definition of set equality.
+
+3. I solved the set_union problem via using the @ operator as it is a built in operator that accomplishes the task given.
+
+4. I solved the set_intersection via using a List.filter to easily return a list of members that were in both a and b.
+
+5. I solved the set_diff via repeating the operations used for set_intersection and taking the complement, as the the difference is A - A*B.
+
+6. I solved the computed_fixed_point problem via recursively checking to see if f(x) was equal to x. If it wasn't I would plug in x = f(x) and repeat recursively.
+
+7. I initially attempted to create an empty list and append elements that were reachable into the list, but I found that approach too difficult to implement recursively and hence I abandoned that school of thought. This then left me with removing elements that were not reachable, and I accomplished that via using the set_diff function that I had written earlier. I decided to travese the tree and after leaving a parent node and traversing to the children, I would delete the parent node. In the end, this left a list of nodes that were not reachable. A quick set_diff operation would then yield a list of the reachable nodes.
