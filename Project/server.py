@@ -4,7 +4,7 @@ import sys
 import json
 import time
 
-API_KEY = 'AIzaSyCzNiZVq-PKdPreHoW2hiHO07-kobnmD60'
+API_KEY = ''
 
 server_dic = {
 	'Goloman': ['Hands', 'Holiday', 'Wilkes'],
